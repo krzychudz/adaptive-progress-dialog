@@ -13,12 +13,18 @@ class AdaptiveProgressDialogStyle {
     this.contentTextStyle,
     this.confirmButtonTextStyle,
     this.cancelButtonTextStyle,
+    this.materialContentPadding,
+    this.materialActionsPadding,
+    this.materialActionsAlignment,
   });
 
   final TextStyle? titleTextStyle;
   final TextStyle? contentTextStyle;
   final TextStyle? confirmButtonTextStyle;
   final TextStyle? cancelButtonTextStyle;
+  final EdgeInsets? materialContentPadding;
+  final EdgeInsets? materialActionsPadding;
+  final MainAxisAlignment? materialActionsAlignment;
 }
 
 Future<AdaptiveProgressDialogResult<T>?> showProgressIndicatorDialog<T>(
@@ -39,6 +45,7 @@ Future<AdaptiveProgressDialogResult<T>?> showProgressIndicatorDialog<T>(
       actionButtonLabel: actionButtonLabel,
       confirmButtonCallback: confirmButtonCallback,
       cancelButtonCallback: cancelButtonCallback,
+      adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
     ),
   );
 }
@@ -51,6 +58,7 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
     this.actionButtonLabel,
     this.confirmButtonCallback,
     this.cancelButtonCallback,
+    this.adaptiveProgressDialogStyle,
   });
 
   final String? title;
@@ -58,6 +66,7 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
   final String? actionButtonLabel;
   final Future<T?> Function()? confirmButtonCallback;
   final Future<void> Function()? cancelButtonCallback;
+  final AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +79,6 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
                 title: title,
                 content: content,
                 actionButtonLabel: actionButtonLabel,
-                actionButtonCallback: confirmButtonCallback,
                 onCancelPressed: () => _onCancelPressed(context),
                 isProgressVisible: isProgressVisible,
                 onActionButtonPressed: () async {
@@ -82,7 +90,6 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
                 title: title,
                 content: content,
                 actionButtonLabel: actionButtonLabel,
-                actionButtonCallback: confirmButtonCallback,
                 onCancelPressed: () async => _onCancelPressed(context),
                 isProgressVisible: isProgressVisible,
                 onActionButtonPressed: () async {
