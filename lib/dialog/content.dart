@@ -1,28 +1,30 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 
-class DialogContent extends StatelessWidget {
-  const DialogContent({
+class DialogProgressContent extends StatelessWidget {
+  const DialogProgressContent({
     super.key,
-    this.isProgressBarVisible = false,
-    this.title,
-    this.content,
+    this.isActionInProgress = false,
+    this.contentText,
+    this.contentTextStyle,
   });
 
-  final bool isProgressBarVisible;
-  final String? title;
-  final String? content;
+  final bool isActionInProgress;
+  final String? contentText;
+  final TextStyle? contentTextStyle;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(content ?? ''),
+        Text(
+          contentText ?? '',
+          style: contentTextStyle,
+        ),
         AnimatedSize(
           duration: const Duration(milliseconds: 200),
           curve: Curves.fastOutSlowIn,
-          child: isProgressBarVisible
+          child: isActionInProgress
               ? Column(
                   children: const [
                     SizedBox(height: 16),

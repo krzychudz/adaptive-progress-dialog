@@ -39,11 +39,12 @@ class MyHomePage extends StatelessWidget {
                   context,
                   title: 'Dialog title',
                   content:
-                      'Do yuo want to perform async operation with progress dialog?',
-                  actionButtonLabel: 'Yes',
+                      'Do you want to perform async operation with progress dialog?',
+                  confirmationButtonLabel: 'Yes',
                   cancelButtonLabel: 'No, close',
-                  confirmButtonCallback: () async =>
-                      await Future.delayed(const Duration(seconds: 5)),
+                  confirmButtonCallback: () async {
+                    await Future.delayed(const Duration(seconds: 5));
+                  },
                   cancelButtonCallback: () async {},
                 );
               },
