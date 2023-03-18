@@ -113,7 +113,7 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
   Future<void> _onCancelPressed(BuildContext context) async {
     final navigator = Navigator.of(context);
 
-    //await cancelButtonCallback?.call();
+    await cancelButtonCallback?.call();
     navigator.pop(AdaptiveProgressDialogResult(
       status: DialogStatus.canceled,
       data: null,
