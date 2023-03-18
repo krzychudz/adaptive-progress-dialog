@@ -19,5 +19,5 @@ class AdaptiveProgressDialogResult<T> {
       AdaptiveProgressDialogResult(status: DialogStatus.closed);
 
   factory AdaptiveProgressDialogResult.success(T? data) =>
-      AdaptiveProgressDialogResult(status: DialogStatus.success);
+      AdaptiveProgressDialogResult(status: DialogStatus.success, data: data);
 }

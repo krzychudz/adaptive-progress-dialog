@@ -114,7 +114,7 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
     final navigator = Navigator.of(context);
 
     await cancelButtonCallback?.call();
-    navigator.pop(AdaptiveProgressDialogResult.canceled());
+    navigator.pop(AdaptiveProgressDialogResult<T?>.canceled());
   }
 
   Future<void> _onConfirmationButtonPressed(BuildContext context) async {
@@ -122,10 +122,10 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
 
     try {
       final data = await confirmButtonCallback?.call();
-      navigator.pop(AdaptiveProgressDialogResult.success(data));
+      navigator.pop(AdaptiveProgressDialogResult<T?>.success(data));
     } catch (_) {
       navigator.pop(
-        AdaptiveProgressDialogResult.error(),
+        AdaptiveProgressDialogResult<T?>.error(),
       );
     }
   }
