@@ -5,21 +5,21 @@ import '../adaptive_progress_dialog.dart';
 
 class MaterialDialog extends StatelessWidget {
   const MaterialDialog({
-    required this.isProgressVisible,
+    required this.isActionInProgress,
     required this.onCancelPressed,
     required this.onActionButtonPressed,
     super.key,
     this.title,
     this.content,
-    this.actionButtonLabel,
+    this.confirmationButtonLabel,
     this.cancelButtonLabel,
     this.adaptiveProgressDialogStyle,
   });
 
   final String? title;
   final String? content;
-  final String? actionButtonLabel;
-  final bool isProgressVisible;
+  final String? confirmationButtonLabel;
+  final bool isActionInProgress;
   final String? cancelButtonLabel;
   final AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle;
   final Function() onCancelPressed;
@@ -30,10 +30,9 @@ class MaterialDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(title ?? ''),
       titleTextStyle: adaptiveProgressDialogStyle?.titleTextStyle,
-      content: DialogContent(
-        isProgressBarVisible: isProgressVisible,
-        title: title,
-        content: content,
+      content: DialogProgressContent(
+        isActionInProgress: isActionInProgress,
+        contentText: content,
       ),
       contentTextStyle: adaptiveProgressDialogStyle?.contentTextStyle,
       contentPadding: contentPadding,
@@ -58,7 +57,7 @@ class MaterialDialog extends StatelessWidget {
         TextButton(
           onPressed: onActionButtonPressed,
           child: Text(
-            actionButtonLabel ?? 'Ok',
+            confirmationButtonLabel ?? 'Ok',
             style: adaptiveProgressDialogStyle?.confirmButtonTextStyle,
           ),
         ),

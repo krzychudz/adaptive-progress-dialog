@@ -6,20 +6,20 @@ import '../adaptive_progress_dialog.dart';
 class CupertinoDialog extends StatelessWidget {
   const CupertinoDialog({
     super.key,
-    required this.isProgressVisible,
+    required this.isActionInProgress,
     required this.onCancelPressed,
     required this.onActionButtonPressed,
     this.title,
     this.content,
-    this.actionButtonLabel,
+    this.confirmationButtonLabel,
     this.cancelButtonLabel,
     this.adaptiveProgressDialogStyle,
   });
 
   final String? title;
   final String? content;
-  final String? actionButtonLabel;
-  final bool isProgressVisible;
+  final String? confirmationButtonLabel;
+  final bool isActionInProgress;
   final String? cancelButtonLabel;
   final AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle;
   final Function() onCancelPressed;
@@ -32,10 +32,9 @@ class CupertinoDialog extends StatelessWidget {
         title ?? '',
         style: adaptiveProgressDialogStyle?.titleTextStyle,
       ),
-      content: DialogContent(
-        isProgressBarVisible: isProgressVisible,
-        title: title,
-        content: content,
+      content: DialogProgressContent(
+        isActionInProgress: isActionInProgress,
+        contentText: content,
         contentTextStyle: adaptiveProgressDialogStyle?.contentTextStyle,
       ),
       actions: dialogActions,
@@ -51,7 +50,7 @@ class CupertinoDialog extends StatelessWidget {
         CupertinoDialogAction(
           onPressed: onActionButtonPressed,
           textStyle: adaptiveProgressDialogStyle?.confirmButtonTextStyle,
-          child: Text(actionButtonLabel ?? 'Ok'),
+          child: Text(confirmationButtonLabel ?? 'Ok'),
         ),
       ];
 }
