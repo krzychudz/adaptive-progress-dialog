@@ -1,4 +1,4 @@
-enum DialogStatus { success, canceled, error }
+enum DialogStatus { success, canceled, error, closed }
 
 class AdaptiveProgressDialogResult<T> {
   AdaptiveProgressDialogResult({
@@ -14,6 +14,9 @@ class AdaptiveProgressDialogResult<T> {
 
   factory AdaptiveProgressDialogResult.error() =>
       AdaptiveProgressDialogResult(status: DialogStatus.error);
+
+  factory AdaptiveProgressDialogResult.closed() =>
+      AdaptiveProgressDialogResult(status: DialogStatus.closed);
 
   factory AdaptiveProgressDialogResult.success(T? data) =>
       AdaptiveProgressDialogResult(status: DialogStatus.success);

@@ -27,7 +27,7 @@ class AdaptiveProgressDialogStyle {
   final MainAxisAlignment? materialActionsAlignment;
 }
 
-Future<AdaptiveProgressDialogResult<T>?> showProgressIndicatorDialog<T>(
+Future<AdaptiveProgressDialogResult<T?>> showProgressIndicatorDialog<T>(
   BuildContext context, {
   required String title,
   required String content,
@@ -37,7 +37,7 @@ Future<AdaptiveProgressDialogResult<T>?> showProgressIndicatorDialog<T>(
   Future<T?> Function()? confirmButtonCallback,
   Future<void> Function()? cancelButtonCallback,
 }) async {
-  return await showDialog<AdaptiveProgressDialogResult<T>>(
+  final result = await showDialog<AdaptiveProgressDialogResult<T?>>(
     context: context,
     builder: (context) => AdaptiveProgressDialog(
       title: title,
@@ -49,6 +49,9 @@ Future<AdaptiveProgressDialogResult<T>?> showProgressIndicatorDialog<T>(
       adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
     ),
   );
+
+  if (result == null) return AdaptiveProgressDialogResult.closed();
+  return result;
 }
 
 class AdaptiveProgressDialog<T> extends StatelessWidget {
@@ -110,9 +113,11 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
   Future<void> _onCancelPressed(BuildContext context) async {
     final navigator = Navigator.of(context);
 
-    await cancelButtonCallback?.call();
-
-    navigator.pop(AdaptiveProgressDialogResult.canceled());
+    //await cancelButtonCallback?.call();
+    navigator.pop(AdaptiveProgressDialogResult(
+      status: DialogStatus.canceled,
+      data: null,
+    ));
   }
 
   Future<void> _onConfirmationButtonPressed(BuildContext context) async {
