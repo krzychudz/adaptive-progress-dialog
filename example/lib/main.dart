@@ -35,8 +35,7 @@ class MyHomePage extends StatelessWidget {
           children: <Widget>[
             ElevatedButton(
               onPressed: () async {
-                await showProgressIndicatorDialog(
-                  context,
+                final dialog = AdaptiveProgressDialog(
                   title: 'Dialog title',
                   content:
                       'Do you want to perform async operation with progress dialog?',
@@ -47,6 +46,7 @@ class MyHomePage extends StatelessWidget {
                   },
                   cancelButtonCallback: () async {},
                 );
+                await dialog.show(context);
               },
               child: Text("Show adaptive dialog"),
             )

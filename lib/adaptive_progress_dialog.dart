@@ -27,35 +27,46 @@ class AdaptiveProgressDialogStyle {
   final MainAxisAlignment? materialActionsAlignment;
 }
 
-Future<AdaptiveProgressDialogResult<T?>> showProgressIndicatorDialog<T>(
-  BuildContext context, {
-  required String title,
-  required String content,
-  String? confirmationButtonLabel, // Ok by default
-  String? cancelButtonLabel, // Cancel by default
-  AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle,
-  Future<T?> Function()? confirmButtonCallback,
-  Future<void> Function()? cancelButtonCallback,
-}) async {
-  final result = await showDialog<AdaptiveProgressDialogResult<T?>>(
-    context: context,
-    builder: (context) => AdaptiveProgressDialog(
-      title: title,
-      content: content,
-      confirmationButtonLabel: confirmationButtonLabel,
-      cancelButtonLabel: cancelButtonLabel,
-      confirmButtonCallback: confirmButtonCallback,
-      cancelButtonCallback: cancelButtonCallback,
-      adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
-    ),
-  );
+class AdaptiveProgressDialog<T> {
+  AdaptiveProgressDialog({
+    required this.title,
+    required this.content,
+    this.confirmationButtonLabel,
+    this.cancelButtonLabel,
+    this.adaptiveProgressDialogStyle,
+    this.confirmButtonCallback,
+    this.cancelButtonCallback,
+  });
 
-  if (result == null) return AdaptiveProgressDialogResult.closed();
-  return result;
+  final String title;
+  final String content;
+  final String? confirmationButtonLabel; // Ok by default
+  final String? cancelButtonLabel; // Cancel by default
+  final AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle;
+  final Future<T?> Function()? confirmButtonCallback;
+  final Future<void> Function()? cancelButtonCallback;
+
+  Future<AdaptiveProgressDialogResult<T?>> show(BuildContext context) async {
+    final result = await showDialog<AdaptiveProgressDialogResult<T?>>(
+      context: context,
+      builder: (context) => ProgressDialog(
+        title: title,
+        content: content,
+        confirmationButtonLabel: confirmationButtonLabel,
+        cancelButtonLabel: cancelButtonLabel,
+        confirmButtonCallback: confirmButtonCallback,
+        cancelButtonCallback: cancelButtonCallback,
+        adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
+      ),
+    );
+
+    if (result == null) return AdaptiveProgressDialogResult.closed();
+    return result;
+  }
 }
 
-class AdaptiveProgressDialog<T> extends StatelessWidget {
-  const AdaptiveProgressDialog({
+class ProgressDialog<T> extends StatelessWidget {
+  const ProgressDialog({
     super.key,
     this.title,
     this.content,
