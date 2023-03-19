@@ -1,7 +1,6 @@
+import 'package:adaptive_progress_dialog/adaptive_progress_dialog_style.dart';
 import 'package:adaptive_progress_dialog/dialog/content.dart';
 import 'package:flutter/material.dart';
-
-import '../adaptive_progress_dialog.dart';
 
 class MaterialDialog extends StatelessWidget {
   const MaterialDialog({

@@ -1,7 +1,6 @@
+import 'package:adaptive_progress_dialog/adaptive_progress_dialog_style.dart';
 import 'package:adaptive_progress_dialog/dialog/content.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../adaptive_progress_dialog.dart';
 
 class CupertinoDialog extends StatelessWidget {
   const CupertinoDialog({
