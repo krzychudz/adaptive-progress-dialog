@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:adaptive_progress_dialog/adaptive_progress_dialog_result.dart';
 import 'package:adaptive_progress_dialog/dialog/cupertino_dialog.dart';
 import 'package:adaptive_progress_dialog/dialog/material_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AdaptiveProgressDialogStyle {
@@ -102,6 +103,7 @@ class ProgressDialog<T> extends StatelessWidget {
                   setState(() => isActionInProgress = true);
                   await _onConfirmationButtonPressed(context);
                 },
+                adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
               )
             : MaterialDialog(
                 title: title,
@@ -114,12 +116,14 @@ class ProgressDialog<T> extends StatelessWidget {
                   setState(() => isActionInProgress = true);
                   await _onConfirmationButtonPressed(context);
                 },
+                adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
               );
       },
     );
   }
 
-  bool get _shouldBuildCupertino => Platform.isIOS || Platform.isMacOS;
+  bool get _shouldBuildCupertino =>
+      kIsWeb ? false : Platform.isIOS || Platform.isMacOS;
 
   Future<void> _onCancelPressed(BuildContext context) async {
     final navigator = Navigator.of(context);
