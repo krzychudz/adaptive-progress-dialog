@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:adaptive_progress_dialog/adaptive_progress_dialog_result.dart';
 import 'package:adaptive_progress_dialog/dialog/cupertino_dialog.dart';
 import 'package:adaptive_progress_dialog/dialog/material_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AdaptiveProgressDialogStyle {
@@ -27,35 +28,46 @@ class AdaptiveProgressDialogStyle {
   final MainAxisAlignment? materialActionsAlignment;
 }
 
-Future<AdaptiveProgressDialogResult<T?>> showProgressIndicatorDialog<T>(
-  BuildContext context, {
-  required String title,
-  required String content,
-  String? confirmationButtonLabel, // Ok by default
-  String? cancelButtonLabel, // Cancel by default
-  AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle,
-  Future<T?> Function()? confirmButtonCallback,
-  Future<void> Function()? cancelButtonCallback,
-}) async {
-  final result = await showDialog<AdaptiveProgressDialogResult<T?>>(
-    context: context,
-    builder: (context) => AdaptiveProgressDialog(
-      title: title,
-      content: content,
-      confirmationButtonLabel: confirmationButtonLabel,
-      cancelButtonLabel: cancelButtonLabel,
-      confirmButtonCallback: confirmButtonCallback,
-      cancelButtonCallback: cancelButtonCallback,
-      adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
-    ),
-  );
+class AdaptiveProgressDialog<T> {
+  AdaptiveProgressDialog({
+    required this.title,
+    required this.content,
+    this.confirmationButtonLabel,
+    this.cancelButtonLabel,
+    this.adaptiveProgressDialogStyle,
+    this.confirmButtonCallback,
+    this.cancelButtonCallback,
+  });
 
-  if (result == null) return AdaptiveProgressDialogResult.closed();
-  return result;
+  final String title;
+  final String content;
+  final String? confirmationButtonLabel; // Ok by default
+  final String? cancelButtonLabel; // Cancel by default
+  final AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle;
+  final Future<T?> Function()? confirmButtonCallback;
+  final Future<void> Function()? cancelButtonCallback;
+
+  Future<AdaptiveProgressDialogResult<T?>> show(BuildContext context) async {
+    final result = await showDialog<AdaptiveProgressDialogResult<T?>>(
+      context: context,
+      builder: (context) => ProgressDialog(
+        title: title,
+        content: content,
+        confirmationButtonLabel: confirmationButtonLabel,
+        cancelButtonLabel: cancelButtonLabel,
+        confirmButtonCallback: confirmButtonCallback,
+        cancelButtonCallback: cancelButtonCallback,
+        adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
+      ),
+    );
+
+    if (result == null) return AdaptiveProgressDialogResult.closed();
+    return result;
+  }
 }
 
-class AdaptiveProgressDialog<T> extends StatelessWidget {
-  const AdaptiveProgressDialog({
+class ProgressDialog<T> extends StatelessWidget {
+  const ProgressDialog({
     super.key,
     this.title,
     this.content,
@@ -91,6 +103,7 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
                   setState(() => isActionInProgress = true);
                   await _onConfirmationButtonPressed(context);
                 },
+                adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
               )
             : MaterialDialog(
                 title: title,
@@ -103,18 +116,20 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
                   setState(() => isActionInProgress = true);
                   await _onConfirmationButtonPressed(context);
                 },
+                adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
               );
       },
     );
   }
 
-  bool get _shouldBuildCupertino => Platform.isIOS || Platform.isMacOS;
+  bool get _shouldBuildCupertino =>
+      kIsWeb ? false : Platform.isIOS || Platform.isMacOS;
 
   Future<void> _onCancelPressed(BuildContext context) async {
     final navigator = Navigator.of(context);
 
     await cancelButtonCallback?.call();
-    navigator.pop(AdaptiveProgressDialogResult.canceled());
+    navigator.pop(AdaptiveProgressDialogResult<T?>.canceled());
   }
 
   Future<void> _onConfirmationButtonPressed(BuildContext context) async {
@@ -122,10 +137,10 @@ class AdaptiveProgressDialog<T> extends StatelessWidget {
 
     try {
       final data = await confirmButtonCallback?.call();
-      navigator.pop(AdaptiveProgressDialogResult.success(data));
+      navigator.pop(AdaptiveProgressDialogResult<T?>.success(data));
     } catch (_) {
       navigator.pop(
-        AdaptiveProgressDialogResult.error(),
+        AdaptiveProgressDialogResult<T?>.error(),
       );
     }
   }
