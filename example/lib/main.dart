@@ -46,7 +46,8 @@ class MyHomePage extends StatelessWidget {
                     },
                     cancelButtonCallback: () async {},
                     adaptiveProgressDialogStyle: AdaptiveProgressDialogStyle(
-                        confirmButtonTextStyle: TextStyle(color: Colors.red)));
+                      confirmButtonTextStyle: TextStyle(color: Colors.red),
+                    ));
                 await dialog.show(context);
               },
               child: Text("Show adaptive dialog"),
