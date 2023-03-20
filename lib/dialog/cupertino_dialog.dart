@@ -47,7 +47,7 @@ class CupertinoDialog extends StatelessWidget {
           child: Text(cancelButtonLabel ?? 'Cancel'),
         ),
         CupertinoDialogAction(
-          onPressed: onActionButtonPressed,
+          onPressed: isActionInProgress ? null : onActionButtonPressed,
           textStyle: adaptiveProgressDialogStyle?.confirmButtonTextStyle,
           child: Text(confirmationButtonLabel ?? 'Ok'),
         ),
