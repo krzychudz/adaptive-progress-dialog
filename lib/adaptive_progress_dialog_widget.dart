@@ -19,7 +19,6 @@ class AdaptiveProgressDialog<T> {
     this.cancelButtonLabel,
     this.adaptiveProgressDialogStyle,
     this.confirmButtonCallback,
-    this.cancelButtonCallback,
   });
 
   ///Dialog's title
@@ -41,11 +40,6 @@ class AdaptiveProgressDialog<T> {
   ///
   ///If the callback fails the [AdaptiveProgressDialogResult] with error status is returned from dialog.
   final Future<T?> Function()? confirmButtonCallback;
-
-  ///Callback that is called when cancel button is pressed.
-  ///
-  ///If the callback fails the [AdaptiveProgressDialogResult] with error status is returned from dialog.
-  final Future<void> Function()? cancelButtonCallback;
 
   ///The dialog can be styled using the [AdaptiveProgressDialogStyle]
   ///
@@ -76,7 +70,6 @@ class AdaptiveProgressDialog<T> {
         confirmationButtonLabel: confirmationButtonLabel,
         cancelButtonLabel: cancelButtonLabel,
         confirmButtonCallback: confirmButtonCallback,
-        cancelButtonCallback: cancelButtonCallback,
         adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
       ),
     );

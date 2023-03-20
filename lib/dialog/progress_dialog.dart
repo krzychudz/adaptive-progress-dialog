@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:adaptive_progress_dialog/adaptive_progress_dialog_result.dart';
@@ -18,9 +19,8 @@ import 'package:flutter/material.dart';
 ///[cancelButtonLabel] A string representing the label of the cancel button.
 ///[confirmButtonCallback] A function that returns a Future<T?> and is called when the confirmation button is pressed.
 ///The returned value is used as the data property of the [AdaptiveProgressDialogResult].
-///[cancelButtonCallback] A function that returns a Future<void> and is called when the cancel button is pressed.
 ///[adaptiveProgressDialogStyle] An object of AdaptiveProgressDialogStyle which contains styles for the progress dialog on different platforms.
-class ProgressDialog<T> extends StatelessWidget {
+class ProgressDialog<T> extends StatefulWidget {
   const ProgressDialog({
     super.key,
     this.title,
@@ -28,7 +28,6 @@ class ProgressDialog<T> extends StatelessWidget {
     this.confirmationButtonLabel,
     this.cancelButtonLabel,
     this.confirmButtonCallback,
-    this.cancelButtonCallback,
     this.adaptiveProgressDialogStyle,
   });
 
@@ -49,49 +48,54 @@ class ProgressDialog<T> extends StatelessWidget {
   /// Once finished the dialog is closed and the result is returned via [AdaptiveProgressDialogResult]
   final Future<T?> Function()? confirmButtonCallback;
 
-  /// Cancel button callback
-  /// This method is triggered when the cancel button is pressed.
-  /// Should be used if there is need to do some actions before the dialog is closed after cancel button is pressed
-  final Future<void> Function()? cancelButtonCallback;
-
   ///The dialog can be styled using the [AdaptiveProgressDialogStyle]
   ///If null is passed the default theme is applied
   final AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle;
 
   @override
-  Widget build(BuildContext context) {
-    bool isActionInProgress = false;
+  State<ProgressDialog<T>> createState() => _ProgressDialogState<T>();
+}
 
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return _shouldBuildCupertino
-            ? CupertinoDialog(
-                title: title,
-                content: content,
-                confirmationButtonLabel: confirmationButtonLabel,
-                onCancelPressed: () => _onCancelPressed(context),
-                isActionInProgress: isActionInProgress,
-                onActionButtonPressed: () async {
-                  setState(() => isActionInProgress = true);
-                  await _onConfirmationButtonPressed(context);
-                },
-                adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
-              )
-            : MaterialDialog(
-                title: title,
-                content: content,
-                confirmationButtonLabel: confirmationButtonLabel,
-                cancelButtonLabel: cancelButtonLabel,
-                onCancelPressed: () async => _onCancelPressed(context),
-                isActionInProgress: isActionInProgress,
-                onActionButtonPressed: () async {
-                  setState(() => isActionInProgress = true);
-                  await _onConfirmationButtonPressed(context);
-                },
-                adaptiveProgressDialogStyle: adaptiveProgressDialogStyle,
-              );
-      },
-    );
+class _ProgressDialogState<T> extends State<ProgressDialog<T>> {
+  bool isActionInProgress = false;
+  bool isClosed = false;
+
+  StreamSubscription<T?>? actionStreamSubscription;
+
+  @override
+  Widget build(BuildContext context) {
+    return _shouldBuildCupertino
+        ? CupertinoDialog(
+            title: widget.title,
+            content: widget.content,
+            confirmationButtonLabel: widget.confirmationButtonLabel,
+            onCancelPressed: () async {
+              await _onCancelPressed(context);
+              setState(() => isClosed = true);
+            },
+            isActionInProgress: isActionInProgress,
+            onActionButtonPressed: () async {
+              setState(() => isActionInProgress = true);
+              await _onConfirmationButtonPressed(context);
+            },
+            adaptiveProgressDialogStyle: widget.adaptiveProgressDialogStyle,
+          )
+        : MaterialDialog(
+            title: widget.title,
+            content: widget.content,
+            confirmationButtonLabel: widget.confirmationButtonLabel,
+            cancelButtonLabel: widget.cancelButtonLabel,
+            onCancelPressed: () async {
+              await _onCancelPressed(context);
+              setState(() => isClosed = true);
+            },
+            isActionInProgress: isActionInProgress,
+            onActionButtonPressed: () async {
+              setState(() => isActionInProgress = true);
+              await _onConfirmationButtonPressed(context);
+            },
+            adaptiveProgressDialogStyle: widget.adaptiveProgressDialogStyle,
+          );
   }
 
   ///Check if cupertino dialog should be shown
@@ -101,16 +105,10 @@ class ProgressDialog<T> extends StatelessWidget {
   ///Method that is called when the cancel button is pressed
   ///First the cancelButtonCallback is called - if provided
   ///Next the dialog is closed and the [AdaptiveProgressDialogResult]
-  ///is returned either with Canceled or Error status
+  ///is returned Canceled status
   Future<void> _onCancelPressed(BuildContext context) async {
-    final navigator = Navigator.of(context);
-
-    try {
-      await cancelButtonCallback?.call();
-      navigator.pop(AdaptiveProgressDialogResult<T?>.canceled());
-    } catch (_) {
-      AdaptiveProgressDialogResult<T?>.error();
-    }
+    actionStreamSubscription?.cancel();
+    Navigator.of(context).pop(AdaptiveProgressDialogResult<T?>.canceled());
   }
 
   ///Method that is called when the confirmation button is pressed
@@ -120,15 +118,22 @@ class ProgressDialog<T> extends StatelessWidget {
   ///If the status is Success and the callback returns data
   ///of type T then the data is available in [data] property of [AdaptiveProgressDialogResult]
   Future<void> _onConfirmationButtonPressed(BuildContext context) async {
-    final navigator = Navigator.of(context);
+    final confirmationCallback = widget.confirmButtonCallback;
 
-    try {
-      final data = await confirmButtonCallback?.call();
-      navigator.pop(AdaptiveProgressDialogResult<T?>.success(data));
-    } catch (_) {
-      navigator.pop(
-        AdaptiveProgressDialogResult<T?>.error(),
-      );
+    if (confirmationCallback != null) {
+      final actionCallbackStream = Stream.fromFuture(confirmationCallback());
+      actionStreamSubscription = actionCallbackStream
+          .listen((data) => _onConfirmationCallbackSuccess(context, data))
+        ..onError((error, stackTrace) =>
+            _onConfirmationCallbackError(context, error));
     }
+  }
+
+  void _onConfirmationCallbackSuccess(BuildContext context, T? data) {
+    Navigator.of(context).pop(AdaptiveProgressDialogResult<T?>.success(data));
+  }
+
+  void _onConfirmationCallbackError(BuildContext context, dynamic error) {
+    Navigator.of(context).pop(AdaptiveProgressDialogResult<T?>.error(error));
   }
 }

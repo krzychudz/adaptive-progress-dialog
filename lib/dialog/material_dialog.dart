@@ -54,7 +54,7 @@ class MaterialDialog extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: onActionButtonPressed,
+          onPressed: isActionInProgress ? null : onActionButtonPressed,
           child: Text(
             confirmationButtonLabel ?? 'Ok',
             style: adaptiveProgressDialogStyle?.confirmButtonTextStyle,

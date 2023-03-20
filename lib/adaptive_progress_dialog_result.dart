@@ -13,7 +13,7 @@ class AdaptiveProgressDialogResult<T> {
   ///
   ///*[DialogStatus.closed] if the dialog was closed just by clicking outside it.
   ///
-  ///*[DialogStatus.error] if the dialog was closed with error that comes from [confirmButtonCallback] or [cancelButtonCallback].
+  ///*[DialogStatus.error] if the dialog was closed with error that comes from [confirmButtonCallback].
   ///
   ///Factories:
   ///
@@ -28,18 +28,20 @@ class AdaptiveProgressDialogResult<T> {
   AdaptiveProgressDialogResult({
     this.status = DialogStatus.success,
     this.data,
+    this.error,
   });
 
   final DialogStatus status;
   final T? data;
+  final dynamic error;
 
   ///A factory method that creates a [AdaptiveProgressDialogResult] object with the status set to canceled.
   factory AdaptiveProgressDialogResult.canceled() =>
       AdaptiveProgressDialogResult(status: DialogStatus.canceled);
 
-  ///A factory method that creates a [AdaptiveProgressDialogResult] object with the status set to error.
-  factory AdaptiveProgressDialogResult.error() =>
-      AdaptiveProgressDialogResult(status: DialogStatus.error);
+  ///A factory method that creates a [AdaptiveProgressDialogResult] object with the status set to error and the error object.
+  factory AdaptiveProgressDialogResult.error(dynamic error) =>
+      AdaptiveProgressDialogResult(status: DialogStatus.error, error: error);
 
   ///A factory method that creates a [AdaptiveProgressDialogResult] object with the status set to closed.
   factory AdaptiveProgressDialogResult.closed() =>
