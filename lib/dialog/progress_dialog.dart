@@ -64,38 +64,44 @@ class _ProgressDialogState<T> extends State<ProgressDialog<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return _shouldBuildCupertino
-        ? CupertinoDialog(
-            title: widget.title,
-            content: widget.content,
-            confirmationButtonLabel: widget.confirmationButtonLabel,
-            onCancelPressed: () async {
-              await _onCancelPressed(context);
-              setState(() => isClosed = true);
-            },
-            isActionInProgress: isActionInProgress,
-            onActionButtonPressed: () async {
-              setState(() => isActionInProgress = true);
-              await _onConfirmationButtonPressed(context);
-            },
-            adaptiveProgressDialogStyle: widget.adaptiveProgressDialogStyle,
-          )
-        : MaterialDialog(
-            title: widget.title,
-            content: widget.content,
-            confirmationButtonLabel: widget.confirmationButtonLabel,
-            cancelButtonLabel: widget.cancelButtonLabel,
-            onCancelPressed: () async {
-              await _onCancelPressed(context);
-              setState(() => isClosed = true);
-            },
-            isActionInProgress: isActionInProgress,
-            onActionButtonPressed: () async {
-              setState(() => isActionInProgress = true);
-              await _onConfirmationButtonPressed(context);
-            },
-            adaptiveProgressDialogStyle: widget.adaptiveProgressDialogStyle,
-          );
+    return WillPopScope(
+      onWillPop: () async {
+        actionStreamSubscription?.cancel();
+        return true;
+      },
+      child: _shouldBuildCupertino
+          ? CupertinoDialog(
+              title: widget.title,
+              content: widget.content,
+              confirmationButtonLabel: widget.confirmationButtonLabel,
+              onCancelPressed: () async {
+                await _onCancelPressed(context);
+                setState(() => isClosed = true);
+              },
+              isActionInProgress: isActionInProgress,
+              onActionButtonPressed: () async {
+                setState(() => isActionInProgress = true);
+                await _onConfirmationButtonPressed(context);
+              },
+              adaptiveProgressDialogStyle: widget.adaptiveProgressDialogStyle,
+            )
+          : MaterialDialog(
+              title: widget.title,
+              content: widget.content,
+              confirmationButtonLabel: widget.confirmationButtonLabel,
+              cancelButtonLabel: widget.cancelButtonLabel,
+              onCancelPressed: () async {
+                await _onCancelPressed(context);
+                setState(() => isClosed = true);
+              },
+              isActionInProgress: isActionInProgress,
+              onActionButtonPressed: () async {
+                setState(() => isActionInProgress = true);
+                await _onConfirmationButtonPressed(context);
+              },
+              adaptiveProgressDialogStyle: widget.adaptiveProgressDialogStyle,
+            ),
+    );
   }
 
   ///Check if cupertino dialog should be shown

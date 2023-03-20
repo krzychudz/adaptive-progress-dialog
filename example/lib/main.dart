@@ -36,18 +36,19 @@ class MyHomePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 final dialog = AdaptiveProgressDialog<String>(
-                    title: 'Dialog title',
-                    content:
-                        'Do you want to perform async operation with progress dialog?',
-                    confirmationButtonLabel: 'Yes',
-                    cancelButtonLabel: 'No, close',
-                    confirmButtonCallback: () async {
-                      await Future.delayed(const Duration(seconds: 5));
-                      return "test";
-                    },
-                    adaptiveProgressDialogStyle: AdaptiveProgressDialogStyle(
-                      confirmButtonTextStyle: TextStyle(color: Colors.red),
-                    ));
+                  title: 'Dialog title',
+                  content:
+                      'Do you want to perform async operation with progress dialog?',
+                  confirmationButtonLabel: 'Yes',
+                  cancelButtonLabel: 'No, close',
+                  confirmButtonCallback: () async {
+                    await Future.delayed(const Duration(seconds: 5));
+                    return "test";
+                  },
+                  adaptiveProgressDialogStyle: AdaptiveProgressDialogStyle(
+                    confirmButtonTextStyle: TextStyle(color: Colors.red),
+                  ),
+                );
                 final data = await dialog.show(context);
                 print("Data: ${data.data}");
               },

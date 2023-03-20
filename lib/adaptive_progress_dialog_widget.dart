@@ -19,6 +19,7 @@ class AdaptiveProgressDialog<T> {
     this.cancelButtonLabel,
     this.adaptiveProgressDialogStyle,
     this.confirmButtonCallback,
+    this.isDismissible = true,
   });
 
   ///Dialog's title
@@ -46,6 +47,9 @@ class AdaptiveProgressDialog<T> {
   ///If null is passed the default theme is applied
   final AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle;
 
+  ///If the dialog is dismissible by the clicking outside the dialog --- true by default
+  final bool isDismissible;
+
   ///This method is used to display the progress dialog.
   ///
   ///This method returns Future<AdaptiveProgressDialogResult<T?>>.
@@ -64,6 +68,7 @@ class AdaptiveProgressDialog<T> {
   Future<AdaptiveProgressDialogResult<T?>> show(BuildContext context) async {
     final result = await showDialog<AdaptiveProgressDialogResult<T?>>(
       context: context,
+      barrierDismissible: isDismissible,
       builder: (context) => ProgressDialog(
         title: title,
         content: content,
