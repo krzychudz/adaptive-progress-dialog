@@ -136,10 +136,12 @@ class _ProgressDialogState<T> extends State<ProgressDialog<T>> {
   }
 
   void _onConfirmationCallbackSuccess(BuildContext context, T? data) {
+    actionStreamSubscription?.cancel();
     Navigator.of(context).pop(AdaptiveProgressDialogResult<T?>.success(data));
   }
 
   void _onConfirmationCallbackError(BuildContext context, dynamic error) {
+    actionStreamSubscription?.cancel();
     Navigator.of(context).pop(AdaptiveProgressDialogResult<T?>.error(error));
   }
 }
