@@ -50,8 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () async {
                 final dialog = AdaptiveProgressDialog<String>(
                   title: 'Progress Dialog',
-                  content:
-                      'Do you want to perform async operation with progress dialog?',
+                  content: 'Do you want to perform async operation?',
                   confirmationButtonLabel: 'Yes',
                   cancelButtonLabel: 'No, close',
                   confirmButtonCallback: () async {
