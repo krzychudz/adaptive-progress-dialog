@@ -4,7 +4,7 @@ A Flutter package that provides an easy way to show a progress dialog with an ad
 
 The AdaptiveProgressDialog widget is generic and takes a type parameter T which is used to represent the data that can be returned from the async operation performed by dialog. The data is returned via the AdaptiveProgressDialogResult class.
 
-<img src="resources/ios.gif" width="25%"/> &emsp; &emsp; &emsp; <img src="resources/android.gif" width="30%"/>
+![The example app running in iOS](resources/ios.gif?raw=true) &emsp; &emsp; &emsp; ![The example app running in Android](resources/android.gif?raw=true)
 
 ## Usage
 Add the package to your pubspec.yaml file:
