@@ -1,7 +1,8 @@
 name: adaptive_progress_dialog
 description: A Flutter package providing am adaptive progress dialog.
-version: 0.0.1
-homepage: https://github.com/krzychudz/adaptive-progress-dialog
+version: 1.0.0
+repository: https://github.com/krzychudz/adaptive-progress-dialog
+issue_tracker: https://github.com/krzychudz/adaptive-progress-dialog/issues
 
 environment:
   sdk: '>=2.19.4 <3.0.0'
