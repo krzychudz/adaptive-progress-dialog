@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Fix length of description
+
 ## 1.0.1
 
 * Provide longer description to better explain the purpose of the package.
