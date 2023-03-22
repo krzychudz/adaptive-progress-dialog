@@ -132,6 +132,8 @@ class _ProgressDialogState<T> extends State<ProgressDialog<T>> {
           .listen((data) => _onConfirmationCallbackSuccess(context, data))
         ..onError((error, stackTrace) =>
             _onConfirmationCallbackError(context, error));
+    } else {
+      Navigator.of(context).pop(AdaptiveProgressDialogResult<T?>.success(null));
     }
   }
 
