@@ -6,6 +6,13 @@ The AdaptiveProgressDialog widget is generic and takes a type parameter T which 
 
 ![The example app running in iOS](resources/ios.gif?raw=true) &emsp; &emsp; &emsp; ![The example app running in Android](resources/android.gif?raw=true)
 
+<table>
+  <tr>
+    <td><img src="https://github.com/krzychudz/adaptive-progress-dialog/raw/master/resources/ios.gif" alt="The example app running in iOS" width="200"></td>
+    <td><img src="https://github.com/krzychudz/adaptive-progress-dialog/raw/master/resources/android.gif" alt="The example app running in Android" width="200"></td>
+  </tr>
+</table>
+
 ## Usage
 Add the package to your pubspec.yaml file:
 
