@@ -1,36 +1,40 @@
+import 'package:adaptive_progress_dialog/adaptive_progress_dialog_style.dart';
 import 'package:adaptive_progress_dialog/dialog/content.dart';
 import 'package:flutter/cupertino.dart';
 
 class CupertinoDialog extends StatelessWidget {
   const CupertinoDialog({
     super.key,
-    this.title,
-    this.content,
-    this.actionButtonLabel,
-    this.actionButtonCallback,
-    this.cancelButtonLabel,
-    required this.isProgressVisible,
+    required this.isActionInProgress,
     required this.onCancelPressed,
     required this.onActionButtonPressed,
+    this.title,
+    this.content,
+    this.confirmationButtonLabel,
+    this.cancelButtonLabel,
+    this.adaptiveProgressDialogStyle,
   });
 
   final String? title;
   final String? content;
-  final String? actionButtonLabel;
-  final Function()? actionButtonCallback;
-  final bool isProgressVisible;
+  final String? confirmationButtonLabel;
+  final bool isActionInProgress;
+  final String? cancelButtonLabel;
+  final AdaptiveProgressDialogStyle? adaptiveProgressDialogStyle;
   final Function() onCancelPressed;
   final Function() onActionButtonPressed;
-  final String? cancelButtonLabel;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
-      title: Text(title ?? ''),
-      content: DialogContent(
-        isProgressBarVisible: isProgressVisible,
-        title: title,
-        content: content,
+      title: Text(
+        title ?? '',
+        style: adaptiveProgressDialogStyle?.titleTextStyle,
+      ),
+      content: DialogProgressContent(
+        isActionInProgress: isActionInProgress,
+        contentText: content,
+        contentTextStyle: adaptiveProgressDialogStyle?.contentTextStyle,
       ),
       actions: dialogActions,
     );
@@ -39,11 +43,13 @@ class CupertinoDialog extends StatelessWidget {
   List<CupertinoDialogAction> get dialogActions => [
         CupertinoDialogAction(
           onPressed: onCancelPressed,
+          textStyle: adaptiveProgressDialogStyle?.cancelButtonTextStyle,
           child: Text(cancelButtonLabel ?? 'Cancel'),
         ),
         CupertinoDialogAction(
-          onPressed: onActionButtonPressed,
-          child: Text(actionButtonLabel ?? 'Ok'),
+          onPressed: isActionInProgress ? null : onActionButtonPressed,
+          textStyle: adaptiveProgressDialogStyle?.confirmButtonTextStyle,
+          child: Text(confirmationButtonLabel ?? 'Ok'),
         ),
       ];
 }

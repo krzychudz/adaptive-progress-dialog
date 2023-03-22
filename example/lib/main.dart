@@ -20,8 +20,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String? dialogData;
 
   @override
   Widget build(BuildContext context) {
@@ -33,21 +40,49 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            if (dialogData != null)
+              Text(
+                dialogData!,
+                style: const TextStyle(fontSize: 26),
+              ),
+            const SizedBox(height: 64),
             ElevatedButton(
               onPressed: () async {
-                await showProgressIndicatorDialog(
-                  context,
-                  title: 'Dialog title',
-                  content:
-                      'Do yuo want to perform async operation with progress dialog?',
-                  actionButtonLabel: 'Yes',
+                final dialog = AdaptiveProgressDialog<String>(
+                  title: 'Progress Dialog',
+                  content: 'Do you want to perform async operation?',
+                  confirmationButtonLabel: 'Yes',
                   cancelButtonLabel: 'No, close',
-                  confirmButtonCallback: () async =>
-                      await Future.delayed(const Duration(seconds: 5)),
-                  cancelButtonCallback: () async {},
+                  confirmButtonCallback: () async {
+                    await Future.delayed(const Duration(seconds: 5));
+                    return "Dialog Result Data";
+                  },
+                  adaptiveProgressDialogStyle: AdaptiveProgressDialogStyle(
+                    confirmButtonTextStyle: const TextStyle(color: Colors.red),
+                  ),
                 );
+
+                final adaptiveProgressDialogResult = await dialog.show(context);
+
+                switch (adaptiveProgressDialogResult.status) {
+                  case DialogStatus.success:
+                    setState(() {
+                      dialogData = adaptiveProgressDialogResult.data;
+                    });
+                    break;
+                  case DialogStatus.canceled:
+                    print("Dialog canceled by pressing on cancel button");
+                    break;
+                  case DialogStatus.error:
+                    print(
+                        "Dialog error: ${adaptiveProgressDialogResult.error}");
+                    break;
+                  case DialogStatus.closed:
+                    print("Dialog canceled by pressing outside dialog");
+                    break;
+                }
               },
-              child: Text("Show adaptive dialog"),
+              child: const Text("Show adaptive dialog"),
             )
           ],
         ),
