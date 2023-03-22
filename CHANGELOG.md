@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Fix gif resources
+
 ## 1.0.2
 
 * Fix length of description
