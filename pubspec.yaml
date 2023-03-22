@@ -1,6 +1,6 @@
 name: adaptive_progress_dialog
-description: A Flutter package providing am adaptive progress dialog.
-version: 1.0.0
+description: A Flutter package providing an adaptive progress dialog. Using this package you can perform async operation while displaying adaptive progress dialog and get the result of the operation. The AdaptiveProgressDialog widget is generic and takes a type parameter T which is used to represent the data that can be returned from the async operation performed by dialog. The data is returned via the AdaptiveProgressDialogResult class.
+version: 1.0.1
 repository: https://github.com/krzychudz/adaptive-progress-dialog
 issue_tracker: https://github.com/krzychudz/adaptive-progress-dialog/issues
 
