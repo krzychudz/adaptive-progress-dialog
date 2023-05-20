@@ -25,8 +25,8 @@ class DialogProgressContent extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           curve: Curves.fastOutSlowIn,
           child: isActionInProgress
-              ? Column(
-                  children: const [
+              ? const Column(
+                  children: [
                     SizedBox(height: 16),
                     CircularProgressIndicator.adaptive(),
                   ],

@@ -1,6 +1,7 @@
 ## 1.0.4
 
-* Readme fixes 
+* Readme fixes
+* Fix linter warnings
 
 ## 1.0.3
 
