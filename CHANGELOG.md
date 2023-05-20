@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Readme fixes 
+
 ## 1.0.3
 
 * Fix gif resources

@@ -12,12 +12,7 @@ The AdaptiveProgressDialog widget is generic and takes a type parameter T which 
 </table>
 
 ## Usage
-Add the package to your pubspec.yaml file:
-
-```
-dependencies:
-  adaptive_progress_dialog: ^1.0.0
-```
+Install the package - see Installing tab.
 
 Import the package in your Dart code:
 
