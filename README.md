@@ -69,7 +69,7 @@ if (dialogResult.status ==  DialogStatus.success) {
 }
 ```
 
-When the confiramtion button is pressed, the confirmButtonCallback is triggered and progress indicator shows up. 
+When the confirmation button is pressed, the confirmButtonCallback is triggered and progress indicator shows up. 
 After the async operation is done, the dialog is closed and the data is available via AdaptiveProgressDialogResult as shown above.
 
 ## Parameters
@@ -86,7 +86,7 @@ isDismissible: If the dialog is dismissible by clicking outside the dialog. True
 
 ## Styling
 The dialog can be styled via adaptiveProgressDialogStyle parameter. To use it just pass the AdaptiveProgressDialogStyle object to it.
-If not provided the default styles are applied - accroding to the Flutter default styling of the MaterialDialog and CupertinoDialog widgets.
+If not provided the default styles are applied - according to the Flutter default styling of the MaterialDialog and CupertinoDialog widgets.
 
 ```
 titleTextStyle - defines the title text style.
