@@ -1,6 +1,6 @@
 name: adaptive_progress_dialog
 description: A Flutter package providing an adaptive progress dialog. Using this package you can perform async operation and get the result of the operation.
-version: 1.0.4
+version: 1.0.5
 repository: https://github.com/krzychudz/adaptive-progress-dialog
 issue_tracker: https://github.com/krzychudz/adaptive-progress-dialog/issues
 

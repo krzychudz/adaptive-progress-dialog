@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Improve readme, fix typos.
+
 ## 1.0.4
 
 * Readme fixes
