@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 import 'dart:io';
 
@@ -65,7 +67,7 @@ class _ProgressDialogState<T> extends State<ProgressDialog<T>> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvokedWithResult: (_, __) {
+      onPopInvoked: (_) {
         actionStreamSubscription?.cancel();
       },
       child: _shouldBuildCupertino

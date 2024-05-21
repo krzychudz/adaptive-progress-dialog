@@ -1,3 +1,7 @@
+## 2.0.1
+
+* Fix analysis issues.
+
 ## 2.0.0
 
 * Bump flutter version.
