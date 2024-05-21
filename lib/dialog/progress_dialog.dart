@@ -64,10 +64,9 @@ class _ProgressDialogState<T> extends State<ProgressDialog<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
         actionStreamSubscription?.cancel();
-        return true;
       },
       child: _shouldBuildCupertino
           ? CupertinoDialog(
@@ -128,8 +127,10 @@ class _ProgressDialogState<T> extends State<ProgressDialog<T>> {
 
     if (confirmationCallback != null) {
       final actionCallbackStream = Stream.fromFuture(confirmationCallback());
-      actionStreamSubscription = actionCallbackStream
-          .listen((data) => _onConfirmationCallbackSuccess(context, data))
+      actionStreamSubscription = actionCallbackStream.listen((data) {
+        if (!context.mounted) return;
+        _onConfirmationCallbackSuccess(context, data);
+      })
         ..onError((error, stackTrace) =>
             _onConfirmationCallbackError(context, error));
     } else {
