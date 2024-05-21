@@ -1,3 +1,7 @@
+## 1.0.6
+
+* Fix analysis issues.
+
 ## 1.0.5
 
 * Improve readme, fix typos.
