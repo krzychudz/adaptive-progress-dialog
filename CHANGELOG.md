@@ -1,3 +1,7 @@
+## 1.0.7
+
+* Revert WillPopScope change.
+
 ## 1.0.6
 
 * Fix analysis issues.
