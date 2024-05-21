@@ -64,10 +64,9 @@ class _ProgressDialogState<T> extends State<ProgressDialog<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      onPopInvokedWithResult: (_, __) {
         actionStreamSubscription?.cancel();
-        return true;
       },
       child: _shouldBuildCupertino
           ? CupertinoDialog(

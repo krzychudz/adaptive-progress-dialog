@@ -1,3 +1,8 @@
+## 2.0.0
+
+* Bump flutter version.
+* Migrate WillPopScope to PopScope.
+
 ## 1.0.7
 
 * Revert WillPopScope change.
@@ -12,16 +17,16 @@
 
 ## 1.0.4
 
-* Readme fixes
-* Fix linter warnings
+* Readme fixes.
+* Fix linter warnings.
 
 ## 1.0.3
 
-* Fix gif resources
+* Fix gif resources.
 
 ## 1.0.2
 
-* Fix length of description
+* Fix length of description.
 
 ## 1.0.1
 
@@ -30,4 +35,4 @@
 
 ## 1.0.0
 
-* Initial Release
+* Initial Release.
