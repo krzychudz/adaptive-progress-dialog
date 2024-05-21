@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:adaptive_progress_dialog/adaptive_progress_dialog.dart';
 import 'package:flutter/material.dart';
 
