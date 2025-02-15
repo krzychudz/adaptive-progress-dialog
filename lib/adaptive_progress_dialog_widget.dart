@@ -52,7 +52,7 @@ class AdaptiveProgressDialog<T> {
 
   ///This method is used to display the progress dialog.
   ///
-  ///This method returns Future<AdaptiveProgressDialogResult<T?>>.
+  ///This method returns `Future<AdaptiveProgressDialogResult<T?>>`.
   ///
   ///The method can be awaited to get the dialog result data.
   ///

@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 ///[content] A string representing the content of the dialog.
 ///[confirmationButtonLabel] A string representing the label of the confirmation button.
 ///[cancelButtonLabel] A string representing the label of the cancel button.
-///[confirmButtonCallback] A function that returns a Future<T?> and is called when the confirmation button is pressed.
+///[confirmButtonCallback] A function that returns a `Future<T?>`s and is called when the confirmation button is pressed.
 ///The returned value is used as the data property of the [AdaptiveProgressDialogResult].
 ///[adaptiveProgressDialogStyle] An object of AdaptiveProgressDialogStyle which contains styles for the progress dialog on different platforms.
 class ProgressDialog<T> extends StatefulWidget {
